@@ -1,0 +1,179 @@
+The JSON Spec for the vjMapping Library
+=========================================
+see also ClassDiagramm
+
+Public objects to process:
+
+Command  - CommandList
+MacroDef - MacroDefList
+
+InputSwitch - InputSwitchList
+InputRotary
+
+Public objects received:
+
+VJCommand  - VJCommandList - VJCommandDict
+Enums: SCdxKeyCode, VJ_ControllerDirection, VJ_ControllerType, VJ_Modifier
+
+
+
+COMMAND format:
+
+	Macros:
+		Macro:    { "M": {"Macro": "mName", "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr" } }  
+			- mName - a macro name defined in the Macros section
+
+	Joystick:
+	Axis:     { "A": {"Direction": "X|Y|Z", "Value": number, "JNo": j, "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr"} }
+				- number => 0..1000 (normalized)
+    
+	RotAxis:  { "R": {"Direction": "X|Y|Z", "Value": number, "JNo": j, "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr"} }
+				- number => 0..1000 (normalized)
+    
+	Slider:   { "S": {"Index": 1|2, "Value": number, "JNo": j, "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr"} }
+				- number => 0..1000 (normalized)
+    
+	POV:      { "P": {"Index": 1|2|3|4, "Direction": "c | u | r | d | l", "JNo": j, "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr" } }   
+				- Index n=> 1..MaxPOV (setup of vJoy, max = 4)
+				- Direction either of the chars (center (released), up, right, donw, left)
+
+	Button:   { "B": {"Index": n, "Mode": "p|r|t|s|d", "Delay": msec, "JNo": j, "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr" } } 
+				- Button Index n => 1..VJ_MAXBUTTON (setup of vJoy - SC supports 60)
+				- Mode optional - either of the chars (see below)
+
+	Keyboard:
+		Key:      { "K": {"VKcodeEx": "keyName", "VKcode": n, "Mode": "p|r|t|s|d", "Modifier": "mod", "Delay": msec, "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr" } }  
+					- VKcodeEx "s" either a number n=> 1..255 or a WinUser VK_.. literal (see separate Reference file)
+					- VKcode n=> 1..255 WinUser VK_.. (see separate Reference file)
+						if both are found the VKcodeEx item gets priority and the VKcode element is ignored
+						if none is found the command is ignored
+					- Mode optional - either of the chars (see below)
+					- Modifier optional - a set of codes (see below)
+
+		- Mode:     [mode]      (p)ress, (r)elease, (t)ap, (s)hort tap, (d)ouble tap           (default=tap - short tap is a tap with almost no delay)
+		- Modifier: [mod[&mod]] (n)one, (lc)trl, (rc)trl, (la)lt, (ra)lt, (ls)hift, (rs)hift   (default=none - concat modifiers with & char)
+		- Delay:    [delay]      nnnn  milliseconds, optional for Tap and Double Tap           (default=150 VJCommand.DEFAULT_DELAY, max 20_000 msec)     
+		- JNo:      [joyNumber] >0 Joystick number                                             (default=1)
+		- Ext1.3:   [string]    Optional user extensions that must be handled by the caller
+
+
+
+MacroDef Format:
+	{ "MName": "mName", "CmdList": [COMMAND] }  COMMAND or a list of COMMAND,COMMAND,...
+
+InputSwitch Format:
+	{ "Input": "key", "Cmd" : [ COMMAND_on, COMMAND_off ] }
+
+InputRotary Format:
+    { "Input": "key", "Cmd" : [COMMAND_pos0, COMMAND_pos1, COMMAND_pos2, COMMAND_pos3, COMMAND_pos4, ..] }    
+
+
+
+Example:
+
+  Caller defined Object for a Logitech (Saitek) Pro Flight Switch Panel:
+
+  /// <summary>
+  /// The Device Mapping File
+  /// </summary>
+  [DataContract]
+  internal class ConfigFile
+  {
+    /*
+        {
+          "_Comment" : "SwitchPanel Config File",
+          "MapName" : "AnyNameWillDo",
+      	  "Macros"   : [MACRO,..],
+          "SwitchMap": [
+              { "Input": "MASTER_BATT",       "Cmd" : [ COMMAND_on, COMMAND_off ] },
+              ...
+            ],
+          "Rotary": 
+              { "Input": "ROTARY",               "Cmd" : [COMMAND_posOff, COMMAND_posR, COMMAND_posL, COMMAND_posAll, COMMAND_posStart] }
+        }
+
+         COMMAND is defined in vjMapping
+    */
+
+    // public members
+    [DataMember( Name = "Address" )]    // optional
+    public string _Comment { get; set; }
+
+    [DataMember( IsRequired = true, Name = "MapName" )]
+    public string MapName { get; set; }
+
+    // private members, used below to return the collected controls
+    [DataMember( Name = "Macros" )]     // optional
+    private MacroDefList Macros { get; set; } = new MacroDefList( );
+
+    [DataMember( Name = "SwitchMap" )]  // optional
+    private InputSwitchList SwitchMap { get; set; } = new InputSwitchList( );
+
+    [DataMember( Name = "Rotary" )]     // optional
+    private InputRotary Rotary { get; set; } = new InputRotary( );
+
+
+    // non Json
+
+    /// <summary>
+    /// Return the dictionary of commands 
+    /// </summary>
+    /// <returns>A Dictionary with Input NAME as Key and the corresponding VJCommand</returns>
+    public VJCommandDict VJCommandDict
+    {
+      get {
+        // combine all commands
+        var ret = Rotary.VJCommands( Macros );              // get rotary
+        ret.Append( SwitchMap.VJCommandDict( Macros ) );    // get switches
+
+        return ret; // all collected commands
+      }
+
+    }
+
+  }
+
+
+And a possible Json Configuration File for the above Input:
+
+{
+  "_Comment" : "SwitchPanel Config File - Ext1 = LED command extension",
+  "MapName": "SwitchPanel Sample Config File",
+  "Macros": [
+      {
+          "MName": "_MacroOn",
+          "CmdList": [ { "A": {"Direction": "X", "Value": 1000}}, { "A": {"Direction": "Y", "Value": 1000}} ]
+      },
+      {
+          "MName": "_MacroOff",
+          "CmdList": [ { "A": {"Direction": "X", "Value": 0}}, { "A": {"Direction": "Y", "Value": 0}} ]
+      }
+    ],
+  "SwitchMap": [
+      { "Input": "MASTER_BATT",       "Cmd" : [ { "B": {"Index": 10 }}, { "B": {"Index":1 }} ] },
+      { "Input": "MASTER_ALT",        "Cmd" : [ { "B": {"Index": 2, "Mode": "t"}}, { "B": {"Index": 2, "Mode":"t"}} ] },
+      { "Input": "AVIONICS_MASTER",   "Cmd" : [ { "B": {"Index": 3, "Mode": "t", "Delay":300}}, { "B": {"Index":3, "Mode":"t", "Delay":100}} ] },
+      { "Input": "FUEL_PUMP",         "Cmd" : [ { "B": {"Index": 1, "Mode": "p"}}, { "B": {"Index":1, "Mode":"r"}} ] },
+      { "Input": "DE_ICE",            "Cmd" : [ { "B": {"Index": 1, "Mode": "t"}} ] },
+      { "Input": "PITOT_HEAT",        "Cmd" : [ { "B": {"Index": 6, "Mode": "p"}}, { "B": {"Index":6, "Mode":"r"}} ] },
+      { "Input": "GEAR",              "Cmd" : [ { "B": {"Index": 1, "Mode": "t"}}, { "B": {"Index":1, "Mode":"t"}} ] },
+      { "Input": "COWL_CLOSE",        "Cmd" : [ { "P": {"Index": 1, "Direction": "u", "Ext1": "NA" }},{ "P": {"Index": 1, "Direction": "c", "Ext1": "NO" }} ] },
+      { "Input": "PANEL",             "Cmd" : [ { "B": {"Index": 1, "Mode": "t"}}, { "B": {"Index":1, "Mode":"t"}} ] },
+      { "Input": "BEACON",            "Cmd" : [ { "M": {"Macro": "_MacroOn", "Ext1": "RG"}}, { "M": {"Macro": "_MacroOff", "Ext1": "RO"}} ] },
+      { "Input": "NAV",               "Cmd" : [ { "K": {"VKcodeEx": "VK_NP_DIVIDE" }}, { "K": {"VKcodeEx": "VK_NP_ENTER" }} ] },
+      { "Input": "STROBE",            "Cmd" : [ { "B": {"Index": 1, "Mode": "t", "Ext1": "LG" }}, { "B": {"Index":1, "Mode":"t", "Ext1": "LO"}} ] },
+      { "Input": "TAXI",              "Cmd" : [ { "K": {"VKcodeEx": "VK_Y" }}, { "K": {"VKcodeEx": "VK_Z" }} ] },
+      { "Input": "LANDING",           "Cmd" : [ { "K": {"VKcodeEx": "VK_A", "Modifier": "ls" }}, { "K": {"VKcodeEx": "VK_B", "Modifier": "ls&rs" }} ] }
+    ],
+  "Rotary": {
+      "Input":  "ROTARY",            "Cmd" : [
+        { "R": {"Direction": "Z", "Value": 0, "JNo": 1 }},
+        { "R": {"Direction": "Z", "Value": 250, "JNo": 1 }},
+        { "R": {"Direction": "Z", "Value": 500, "JNo": 1 }},
+        { "R": {"Direction": "Z", "Value": 750, "JNo": 1 }},
+        { "R": {"Direction": "Z", "Value": 1000, "JNo": 1 }}
+      ]
+    }
+}
+
+<EOD>

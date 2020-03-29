@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1062
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vjMapper", "vjMapper\vjMapper.csproj", "{C219C039-32C0-4D68-844D-9A6918987880}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEST_vjMapper", "TEST_vjMapper\TEST_vjMapper.csproj", "{F26DD0ED-F353-48FC-8C2F-DD8D3C9034EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{8FA37EE9-11CF-4423-92BE-448E8EF82164}"
+	ProjectSection(SolutionItems) = preProject
+		Doc\ClassDiagram.png = Doc\ClassDiagram.png
+		Doc\ConfigSyntax.txt = Doc\ConfigSyntax.txt
+		Doc\KeyCodes.txt = Doc\KeyCodes.txt
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C219C039-32C0-4D68-844D-9A6918987880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C219C039-32C0-4D68-844D-9A6918987880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C219C039-32C0-4D68-844D-9A6918987880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C219C039-32C0-4D68-844D-9A6918987880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F26DD0ED-F353-48FC-8C2F-DD8D3C9034EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F26DD0ED-F353-48FC-8C2F-DD8D3C9034EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F26DD0ED-F353-48FC-8C2F-DD8D3C9034EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F26DD0ED-F353-48FC-8C2F-DD8D3C9034EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D5C92BB-BBA2-4229-8FA8-C9612A31BA4B}
+	EndGlobalSection
+EndGlobal

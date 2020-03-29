@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Comment CommentText="Public (Json Input)">
+    <Position X="0.5" Y="0.5" Height="0.367" Width="1.424" />
+  </Comment>
+  <Comment CommentText="Public (JV Outputs)">
+    <Position X="0.5" Y="6.817" Height="0.367" Width="1.305" />
+  </Comment>
+  <Comment CommentText="Internal (Json Input)">
+    <Position X="13.075" Y="0.5" Height="0.367" Width="1.424" />
+  </Comment>
+  <Comment CommentText="Internal (VJ Output)">
+    <Position X="13.072" Y="6.881" Height="0.367" Width="1.424" />
+  </Comment>
+  <Class Name="vjMapper.DxKbd.SCdxKeycodes">
+    <Position X="2.75" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DxKbd\SCdxKeycodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.Command">
+    <Position X="3.25" Y="1.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIPAAQA=</HashCode>
+      <FileName>JInput\Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandAxis">
+    <Position X="22.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\CommandAxis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandAxisBase">
+    <Position X="23.5" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Protected" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAABAAAAAAAggAAAAAAA=</HashCode>
+      <FileName>JInput\CommandAxisBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandBase">
+    <Position X="20" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Protected" Collapsed="true" />
+      <Compartment Name="Internal" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>HAABAAAABAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\CommandBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandButton">
+    <Position X="13.25" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABIAAAAAAAAAAAAAAAABIAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>JInput\CommandButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandKey">
+    <Position X="17.75" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAEBAAABIAAAAAAAAAAAAAAAAAIAAAAAAAAAAAACAA=</HashCode>
+      <FileName>JInput\CommandKey.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandList" Collapsed="true">
+    <Position X="3.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\CommandList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandMacro">
+    <Position X="20" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>JInput\CommandMacro.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandPov">
+    <Position X="26.75" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAACAAAAAAAABAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>JInput\CommandPov.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandRotAxis">
+    <Position X="24.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\CommandRotAxis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.CommandSlider">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAABAAAAAAAEgAAAAAAA=</HashCode>
+      <FileName>JInput\CommandSlider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.InputBase">
+    <Position X="8.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\InputBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.InputRotary">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\InputRotary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.InputSwitch">
+    <Position X="9.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAACAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\InputSwitch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.InputSwitchList">
+    <Position X="9.5" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>JInput\InputSwitchList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.MacroDef">
+    <Position X="5.25" Y="1.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAgAAAA=</HashCode>
+      <FileName>JInput\MacroDef.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.JInput.MacroDefList">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JInput\MacroDefList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.vjMapping">
+    <Position X="0.75" Y="1.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAAAAgAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>vjMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.VjOutput.SCJoyServerCommand">
+    <Position X="13.25" Y="7.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAARAAAABABAAEABAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>VjOutput\SCJoyServerCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.VjOutput.VJCommand">
+    <Position X="0.75" Y="7.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Internal" Collapsed="true" />
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>UgCABAEQAAAAEQAAAggEMAACAACIAACAABgAEAAEAAA=</HashCode>
+      <FileName>VjOutput\VJCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.VjOutput.VJCommandDict">
+    <Position X="0.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>VjOutput\VJCommandDict.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="vjMapper.VjOutput.VJCommandList" Collapsed="true">
+    <Position X="0.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VjOutput\VJCommandList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="vjMapper.DxKbd.SCdxKeycode" Collapsed="true">
+    <Position X="2.75" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>fw4KTE0BAvjvvw/yASRNwkGVmHEC0UJjPQKBTMj/2/8=</HashCode>
+      <FileName>DxKbd\SCdxKeycodes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="vjMapper.VjOutput.VJ_ControllerType">
+    <Position X="7" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAQAAIAAABAAAAAAAAAAEAAEACAAAAAgAAAAAAA=</HashCode>
+      <FileName>VjOutput\VJCommand.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="vjMapper.VjOutput.VJ_Modifier">
+    <Position X="8.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAACAAAAAAIACQAAAAAAgAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>VjOutput\VJCommand.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="vjMapper.VjOutput.VJ_ControllerDirection">
+    <Position X="5.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAgAAAAAAAAAAKAAHAAAAIgAQAAAAAA=</HashCode>
+      <FileName>VjOutput\VJCommand.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

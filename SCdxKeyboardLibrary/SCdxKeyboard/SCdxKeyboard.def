@@ -1,0 +1,18 @@
+
+LIBRARY 	SCDXKEYBOARD
+;DESCRIPTION	'DirectX Keyboard Input Lib Implementation'
+
+
+EXPORTS
+; Win reserved  @1
+
+; C-Style Wrapper - Section
+
+; interface @20..
+    KeyDown_C		@21
+    KeyUp_C			@22
+    KeyTap_C		@23
+    KeyStroke_C		@24
+    Sleep_ms_C		@25
+
+;//---------------------------------------------------------------------------
