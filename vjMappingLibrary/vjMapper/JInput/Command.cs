@@ -49,6 +49,10 @@ namespace vjMapper.JInput
                       - Mode optional - either of the chars (see below)
                       - Modifier optional - a set of codes (see below)
 
+        Other:
+          Ext:    { "E": { "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr" } }    // trigger only extended commands
+
+      
          - Mode:     [mode]      (p)ress, (r)elease, (t)ap, (s)hort tap, (d)ouble tap           (default=tap - short tap is a tap with almost no delay)
          - Modifier: [mod[&mod]] (n)one, (lc)trl, (rc)trl, (la)lt, (ra)lt, (ls)hift, (rs)hift   (default=none - concat modifiers with & char)
          - Delay:    [delay]      nnnn  milliseconds, optional for Tap and Double Tap           (default=150 VJCommand.DEFAULT_DELAY, max 20_000 msec)     
@@ -71,6 +75,8 @@ namespace vjMapper.JInput
     internal CommandButton B { get; set; }
     [DataMember]
     internal CommandKey K { get; set; }
+    [DataMember]
+    internal CommandExt E { get; set; }
 
     // non Json
 
@@ -88,6 +94,7 @@ namespace vjMapper.JInput
       if ( P != null ) return P.Cmd;
       if ( B != null ) return B.Cmd;
       if ( K != null ) return K.Cmd;
+      if ( E != null ) return E.Cmd;
       return new VJCommand( ); // return a default one (is marked Invalid though)
     }
   }

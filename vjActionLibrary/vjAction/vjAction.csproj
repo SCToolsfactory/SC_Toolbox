@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C219C039-32C0-4D68-844D-9A6918987880}</ProjectGuid>
+    <ProjectGuid>{142CDEAD-A79F-4A64-B494-C87415EEBE0A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>vjMapper</RootNamespace>
-    <AssemblyName>vjMapper</AssemblyName>
+    <RootNamespace>vjAction</RootNamespace>
+    <AssemblyName>vjAction</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,48 +31,39 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dxKbdInterfaceWrap">
+      <HintPath>..\..\Redist\dxKbdInterfaceWrap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="vjMapper">
+      <HintPath>..\..\Redist\vjMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="vJoy_csWrapper">
+      <HintPath>..\..\Redist\vJoy_csWrapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DxKbd\SCdxKeycodes.cs" />
-    <Compile Include="JInput\Command.cs" />
-    <Compile Include="JInput\CommandAxis.cs" />
-    <Compile Include="JInput\CommandAxisBase.cs" />
-    <Compile Include="JInput\CommandBase.cs" />
-    <Compile Include="JInput\CommandButton.cs" />
-    <Compile Include="JInput\CommandExt.cs" />
-    <Compile Include="JInput\CommandKey.cs" />
-    <Compile Include="JInput\CommandList.cs" />
-    <Compile Include="JInput\CommandMacro.cs" />
-    <Compile Include="JInput\CommandPov.cs" />
-    <Compile Include="JInput\CommandRotAxis.cs" />
-    <Compile Include="JInput\CommandSlider.cs" />
-    <Compile Include="JInput\InputBase.cs" />
-    <Compile Include="JInput\InputRotary.cs" />
-    <Compile Include="JInput\InputSwitch.cs" />
-    <Compile Include="JInput\InputSwitchList.cs" />
-    <Compile Include="JInput\MacroDef.cs" />
-    <Compile Include="JInput\MacroDefList.cs" />
+    <Compile Include="vjActionEventArgs.cs" />
+    <Compile Include="Commands\VJoyCmdParser.cs" />
+    <Compile Include="Kbd\KbdHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="vjMapping.cs" />
-    <Compile Include="VjOutput\SCJoyServerCommand.cs" />
-    <Compile Include="VjOutput\VJCommand.cs" />
-    <Compile Include="VjOutput\VJCommandDict.cs" />
-    <Compile Include="VjOutput\VJCommandList.cs" />
+    <Compile Include="vjActionHandler.cs" />
+    <Compile Include="vJoy\vJoyHandler.cs" />
+    <Compile Include="vJoy\vJoystick.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release copy $(TargetPath) $(SolutionDir)..\Redist\</PostBuildEvent>
   </PropertyGroup>

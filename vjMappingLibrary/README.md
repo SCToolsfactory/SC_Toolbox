@@ -1,5 +1,5 @@
 # C# Library to handle Json command structures
-### Current Version: 1.1 B5
+### Current Version: 1.2 B6 
 
 This is just a supporting library for other projects.
 

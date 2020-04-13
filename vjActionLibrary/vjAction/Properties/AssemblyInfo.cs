@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("vjMapper")]
+[assembly: AssemblyTitle("vjAction")]
 [assembly: AssemblyDescription( "Supporting library for Json to SCJoyServer command handling" )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("vjMapper")]
-[assembly: AssemblyCopyright( "Copyright ©  2020 M.Burri" )]
+[assembly: AssemblyProduct("vjAction")]
+[assembly: AssemblyCopyright( "Copyright ©  2020  M.Burri" )]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c219c039-32c0-4d68-844d-9a6918987880")]
+[assembly: Guid("142cdead-a79f-4a64-b494-c87415eebe0a")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion( "1.2.0.6" )]
-[assembly: AssemblyFileVersion( "1.2.0.6" )]
+[assembly: AssemblyVersion( "1.0.0.4" )]
+[assembly: AssemblyFileVersion( "1.0.0.4" )]

@@ -20,6 +20,8 @@ namespace vjMapper.VjOutput
 
     DX_Key,         // a key to type
 
+    OX_Ext,         // an external command only
+
     VX_Macro,       // a macro to execute
   }
 
@@ -83,7 +85,7 @@ namespace vjMapper.VjOutput
     /// </summary>
     public VJ_ControllerDirection CtrlDirection { get; set; } = VJ_ControllerDirection.VJ_NotUsed;
 
-    
+
     /// <summary>
     /// The controller modifiers 
     /// </summary>
@@ -142,23 +144,32 @@ namespace vjMapper.VjOutput
     /// </summary>
     public string CtrlExt3 { get; set; } = "";
 
-    
+
     // State Items
 
     /// <summary>
     /// Returns true for a valid command
     /// </summary>
     public bool IsValid { get => this.CtrlType != VJ_ControllerType.VJ_Unknown; }
-    
+
     /// <summary>
     /// true if it is a Joystick Command
     /// </summary>
-    public bool IsVJoyCommand { get => this.CtrlType != VJ_ControllerType.DX_Key; }
+    public bool IsVJoyCommand { get => this.CtrlType == VJ_ControllerType.VJ_Axis
+                                    || this.CtrlType == VJ_ControllerType.VJ_RotAxis
+                                    || this.CtrlType == VJ_ControllerType.VJ_Slider
+                                    || this.CtrlType == VJ_ControllerType.VJ_Hat
+                                    || this.CtrlType == VJ_ControllerType.VJ_Button; }
 
     /// <summary>
     /// true if it is a Key Command
     /// </summary>
     public bool IsKeyCommand { get => this.CtrlType == VJ_ControllerType.DX_Key; }
+
+    /// <summary>
+    /// true if it is a Key Command
+    /// </summary>
+    public bool IsExtCommand { get => this.CtrlType == VJ_ControllerType.OX_Ext; }
 
     /// <summary>
     /// true if it is a Macro Command
@@ -177,16 +188,159 @@ namespace vjMapper.VjOutput
         // create the string if it was empty before (exec JCommand only once)
         // The command is not supposed to change once created, may be make it immutable ??
         if ( string.IsNullOrEmpty( m_jString ) ) {
-          m_jString = SCJoyServerCommand.JCommand(this);
+          m_jString = SCJoyServerCommand.JCommand( this );
         }
         return m_jString;
       }
     }
 
+    // SCJoyServer Client support
+
+    /// <summary>
+    /// Create an Axis Command
+    /// </summary>
+    /// <param name="axis">The axis</param>
+    /// <param name="value">The Axis value (0..1000) (optional)</param>
+    /// <returns>An Axis Command</returns>
+    public static VJCommand VJAxisCmd( VJ_ControllerDirection axis, int value )
+    {
+      var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.VJ_Axis,
+                                   CtrlDirection = axis,
+                                   CtrlValue_Delay = value };
+      return cmd;
+    }
+
+
+    /// <summary>
+    /// Create a RotAxis Command
+    /// </summary>
+    /// <param name="axis">The rot axis</param>
+    /// <param name="value">The Axis value (0..1000) (optional)</param>
+    /// <returns>A RotAxis Command</returns>
+    public static VJCommand VJRotAxisCmd( VJ_ControllerDirection axis, int value )
+    {
+      var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.VJ_RotAxis,
+                                   CtrlDirection = axis,
+                                   CtrlValue_Delay = value };
+      return cmd;
+    }
+
+
+    /// <summary>
+    /// Create a Slider Command
+    /// </summary>
+    /// <param name="index">The Slider index (1..2)</param>
+    /// <param name="value">The Slider value (0..1000) (optional)</param>
+    /// <returns>A Slider Command</returns>
+    public static VJCommand VJSliderCmd( int index, int value )
+    {
+      var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.VJ_Slider,
+                                   CtrlIndex_keycode =index,
+                                   CtrlValue_Delay = value };
+      return cmd;
+    }
+
+
+    /// <summary>
+    /// Create a POV Command
+    /// </summary>
+    /// <param name="povIndex">The POV index</param>
+    /// <param name="povDirection">The POV direction (optional)</param>
+    /// <returns>A POV Command</returns>
+    public static VJCommand VJPovCmd( int povIndex, VJ_ControllerDirection povDirection = VJ_ControllerDirection.VJ_Center )
+    {
+      var cmd = new VJCommand( ) {
+        CtrlType = VJ_ControllerType.VJ_Hat,
+        CtrlIndex_keycode = povIndex,
+        CtrlDirection = povDirection
+      };
+      return cmd;
+    }
+
+
+    /// <summary>
+    /// Create a Button Command
+    /// </summary>
+    /// <param name="buttonIndex">The button index</param>
+    /// <param name="pressMode">The press mode (optional)</param>
+    /// <param name="delay">The press delay (optional)</param>
+    /// <returns>A Button Command</returns>
+    public static VJCommand VJButtonCmd( int buttonIndex, VJ_ControllerDirection pressMode = VJ_ControllerDirection.VJ_Tap, int delay = DEFAULT_DELAY )
+    {
+      var cmd = new VJCommand( ) {
+        CtrlType = VJ_ControllerType.VJ_Button,
+        CtrlIndex_keycode = buttonIndex,
+        CtrlDirection = pressMode,
+        CtrlValue_Delay = delay
+      };
+      return cmd;
+    }
+
+
+    /// <summary>
+    /// Create a Key Command
+    /// </summary>
+    /// <param name="keyEx">A key string</param>
+    /// <param name="modifiers">a list of modifiers (optional)</param>
+    /// <param name="pressMode">The press mode (optional)</param>
+    /// <param name="delay">The press delay (optional)</param>
+    /// <returns>A Key Command</returns>
+    public static VJCommand VJKeyCmd( string keyEx, List<VJ_Modifier> modifiers = null, VJ_ControllerDirection pressMode = VJ_ControllerDirection.VJ_Tap, int delay = DEFAULT_DELAY )
+    {
+      var cmd = new VJCommand( ) {
+        CtrlType = VJ_ControllerType.DX_Key,
+        CtrlDirection = pressMode,
+        CtrlValue_Delay = delay,
+        CtrlIndex_keycode = DxKbd.SCdxKeycodes.KeyCodeFromKeyName( keyEx )
+      };
+      if ( modifiers != null ) {
+        foreach ( var m in modifiers ) {
+          cmd.CtrlModifier.Add( m );
+        }
+      }
+      return cmd;
+    }
+
+
+    /// <summary>
+    /// Create a Key Command
+    /// </summary>
+    /// <param name="key">A key Enum</param>
+    /// <param name="modifiers">a list of modifiers (optional)</param>
+    /// <param name="pressMode">The press mode (optional)</param>
+    /// <param name="delay">The press delay (optional)</param>
+    /// <returns>A Key Command</returns>
+    public static VJCommand VJKeyCmd( DxKbd.SCdxKeycode key, List<VJ_Modifier> modifiers = null, VJ_ControllerDirection pressMode = VJ_ControllerDirection.VJ_Tap, int delay = DEFAULT_DELAY )
+    {
+      var cmd = new VJCommand( ) {
+        CtrlType = VJ_ControllerType.DX_Key,
+        CtrlDirection = pressMode,
+        CtrlValue_Delay = delay,
+        CtrlIndex_keycode = (int)key
+      };
+      if ( modifiers != null ) {
+        foreach ( var m in modifiers ) {
+          cmd.CtrlModifier.Add( m );
+        }
+      }
+      return cmd;
+    }
+
+
+    /// <summary>
+    /// Create an Extension Command
+    /// </summary>
+    /// <returns>An Extension Command</returns>
+    public static VJCommand VJExtCmd( )
+    {
+      var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.OX_Ext };
+      return cmd;
+    }
+
+
+
+    #endregion
 
   }
-
-  #endregion
-
 }
 

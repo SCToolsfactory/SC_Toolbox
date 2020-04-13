@@ -103,12 +103,7 @@ namespace vjMapper.VjOutput
     private static string JAnalogValue( VJCommand vJ )
     {
       // "Value": number
-      switch ( vJ.CtrlDirection ) {
-        case VJ_ControllerDirection.VJ_X: return $"\"Value\": {vJ.CtrlValue}";
-        case VJ_ControllerDirection.VJ_Y: return $"\"Value\": {vJ.CtrlValue}";
-        case VJ_ControllerDirection.VJ_Z: return $"\"Value\": {vJ.CtrlValue}";
-        default: return "";
-      }
+      return $"\"Value\": {vJ.CtrlValue}";
     }
 
     /// <summary>
@@ -152,6 +147,10 @@ namespace vjMapper.VjOutput
         case VJ_ControllerType.DX_Key:
           // { "K": {"VKcode": keyCode, "Mode": "p|r|t|s|d", "Modifier": "mod", "Delay": 100 } }  
           ret = $"{{ \"K\": {{ {JSKeyCodeNumber( vJ )}, {JHitModeAndDelay( vJ )}, {JKeyModifier( vJ )} }} }}";
+          break;
+        case VJ_ControllerType.OX_Ext:
+          // { "E": { "Ext1": "extstr", "Ext2": "extstr", "Ext3": "extstr" } }    // trigger only extended commands
+          ret = $"{{ \"E\": {{ }} }}";
           break;
         default:
           ret = "{}";
