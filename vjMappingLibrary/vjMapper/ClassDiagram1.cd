@@ -26,7 +26,7 @@
       <Compartment Name="Properties" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIPAAQA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIoPAAQA=</HashCode>
       <FileName>JInput\Command.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -173,7 +173,7 @@
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>IAAAAgAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAAgAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAEAAAAA=</HashCode>
       <FileName>vjMapping.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -194,9 +194,10 @@
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>UgCABAEQAAAAEQAAAggEMAACAACIAACAABgAEAAEAAA=</HashCode>
+      <HashCode>UgCAhAEQAAAAEQACAggEMgACAECIACCAABgAkAAEAFA=</HashCode>
       <FileName>VjOutput\VJCommand.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="vjMapper.VjOutput.VJCommandDict">
     <Position X="0.75" Y="13.5" Width="1.5" />
@@ -222,7 +223,7 @@
   <Enum Name="vjMapper.VjOutput.VJ_ControllerType">
     <Position X="7" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAQAAIAAABAAAAAAAAAAEAAEACAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AEAAAAQAAIAAABAAAAAAAAAAEAAEACAAAAEgAAAAAAA=</HashCode>
       <FileName>VjOutput\VJCommand.cs</FileName>
     </TypeIdentifier>
   </Enum>

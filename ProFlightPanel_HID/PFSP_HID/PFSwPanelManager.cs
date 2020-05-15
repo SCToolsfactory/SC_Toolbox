@@ -78,13 +78,11 @@ namespace PFSP_HID
       if ( m_device != null ) {
         m_connectedToDriver = true;
         m_device.OpenDevice( );
-
         m_device.Inserted += DeviceAttachedHandler;
         m_device.Removed += DeviceRemovedHandler;
-
         m_device.MonitorDeviceEvents = true;
 
-        m_device.ReadReport( OnReport );
+        DeviceAttachedHandler( ); // also reads the first report
 
         return true;
       }
@@ -99,8 +97,16 @@ namespace PFSP_HID
     /// </summary>
     public void CloseDevice()
     {
-      m_device.CloseDevice( );
+      if ( m_device == null ) return;
+
+      if ( m_device.IsOpen ) {
+        m_device.MonitorDeviceEvents = false;
+        m_device.CloseDevice( );
+      }
+      m_device.Inserted -= DeviceAttachedHandler;
+      m_device.Removed -= DeviceAttachedHandler;
       m_connectedToDriver = false;
+      m_device = null;
     }
 
     /// <summary>
@@ -112,6 +118,28 @@ namespace PFSP_HID
       GC.SuppressFinalize( this );
     }
 
+    /// <summary>
+    /// Closes any connected devices.
+    /// </summary>
+    /// <param name="disposing"></param>
+    private void Dispose( bool disposing )
+    {
+      if ( !this.m_disposed ) {
+        if ( disposing ) {
+          CloseDevice( );
+        }
+
+        m_disposed = true;
+      }
+    }
+
+    /// <summary>
+    /// Destroys instance and frees device resources (if not freed already)
+    /// </summary>
+    ~PFSwPanelManager()
+    {
+      Dispose( false );
+    }
 
     /// <summary>
     /// Sends a message to the Pro Flight Switch Panel device to enable  LEDs with state
@@ -137,7 +165,7 @@ namespace PFSP_HID
                   0x20 Right red     |
 
        */
-      if ( m_connectedToDriver ) {
+      if ( m_connectedToDriver && m_attached ) {
         m_ledState[(int)led] = state; // new state for the led
 
         byte[] data = new byte[2];
@@ -204,7 +232,7 @@ namespace PFSP_HID
 
       DeviceAttached?.Invoke( this, EventArgs.Empty );
 
-      m_device.ReadReport( OnReport );
+      m_device.ReadReport( OnReport, 1000 ); // start reading
     }
 
     private void DeviceRemovedHandler()
@@ -214,9 +242,30 @@ namespace PFSP_HID
       DeviceRemoved?.Invoke( this, EventArgs.Empty );
     }
 
+    /// <summary>
+    /// Callback From ReadReport
+    /// </summary>
+    /// <param name="report"></param>
     private void OnReport( HidReport report )
     {
-      if ( m_attached == false ) { return; }
+      if (m_connectedToDriver ==false || m_attached == false ) { return; }
+
+      if ( report.ReadStatus == HidDeviceData.ReadStatus.WaitTimedOut || report.ReadStatus == HidDeviceData.ReadStatus.WaitFail ) {
+        m_device?.ReadReport( OnReport, 1000 );
+        return;
+      }
+      else if ( report.ReadStatus == HidDeviceData.ReadStatus.NoDataRead ) {
+        m_device?.ReadReport( OnReport, 1000 );
+        return;
+      }
+      else if ( report.ReadStatus == HidDeviceData.ReadStatus.NotConnected ) {
+        m_attached = false;
+        return;
+      }
+      else if ( report.ReadStatus == HidDeviceData.ReadStatus.ReadError ) {
+        m_device?.ReadReport( OnReport, 1000 );
+        return;
+      }
 
       if ( report.Data.Length >= 3 ) {
         PFSwPanelState state = ParseState( report.Data );
@@ -229,14 +278,14 @@ namespace PFSP_HID
           if ( m_debugPrintRawMessages ) {
             System.Diagnostics.Debug.Write( "Pro Flight Switch Panel raw data: " );
             for ( int i = 0; i < report.Data.Length; i++ ) {
-              System.Diagnostics.Debug.Write( String.Format( "{0:000} ", report.Data[i] ) );
+              System.Diagnostics.Debug.Write( string.Format( "{0:000} ", report.Data[i] ) );
             }
             System.Diagnostics.Debug.WriteLine( "" );
           }
         }
       }
-
-      m_device.ReadReport( OnReport );
+      
+      m_device?.ReadReport( OnReport, 1000 );
     }
 
     /*
@@ -315,28 +364,6 @@ namespace PFSP_HID
       }
     }
 
-    /// <summary>
-    /// Closes any connected devices.
-    /// </summary>
-    /// <param name="disposing"></param>
-    private void Dispose( bool disposing )
-    {
-      if ( !this.m_disposed ) {
-        if ( disposing ) {
-          CloseDevice( );
-        }
-
-        m_disposed = true;
-      }
-    }
-
-    /// <summary>
-    /// Destroys instance and frees device resources (if not freed already)
-    /// </summary>
-    ~PFSwPanelManager()
-    {
-      Dispose( false );
-    }
 
   }
 }

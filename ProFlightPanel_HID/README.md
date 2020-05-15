@@ -1,5 +1,5 @@
 # C# Library to access the Pro Flight Panel Series
-### Current Version: 1.1 B5
+### Current Version: 1.2 B6
 
 This is a supporting library for other projects.  
 

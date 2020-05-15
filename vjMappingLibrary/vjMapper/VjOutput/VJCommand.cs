@@ -65,15 +65,24 @@ namespace vjMapper.VjOutput
   /// The Command class which contains the in memory definiton of commands
   /// supports an outgoing Json command string for the SCJoyServer
   /// </summary>
-  public class VJCommand
+  public class VJCommand : ICloneable
   {
     private string m_jString = "";  // store for the Json command string to send
     private List<VJ_Modifier> m_modifiers = new List<VJ_Modifier>( ); // store for the macrolist
 
     // Defaults
-    internal const int VJ_MAXBUTTON = 60;  // the last allowed button number
-    internal const int DEFAULT_DELAY = 150; // msec
+    public const int VJ_MAXBUTTON = 60;  // the last allowed button number
+    public const int DEFAULT_DELAY = 150; // msec
     internal const int DEFAULT_SHORTDELAY = 5; // msec - short tap const
+
+    /// <summary>
+    /// Clones the object
+    /// </summary>
+    /// <returns>A clone of this</returns>
+    public object Clone()
+    {
+      return this.MemberwiseClone( );
+    }
 
     /// <summary>
     /// The controller e.g. Button, Axis, etc.
@@ -155,11 +164,14 @@ namespace vjMapper.VjOutput
     /// <summary>
     /// true if it is a Joystick Command
     /// </summary>
-    public bool IsVJoyCommand { get => this.CtrlType == VJ_ControllerType.VJ_Axis
-                                    || this.CtrlType == VJ_ControllerType.VJ_RotAxis
-                                    || this.CtrlType == VJ_ControllerType.VJ_Slider
-                                    || this.CtrlType == VJ_ControllerType.VJ_Hat
-                                    || this.CtrlType == VJ_ControllerType.VJ_Button; }
+    public bool IsVJoyCommand
+    {
+      get => this.CtrlType == VJ_ControllerType.VJ_Axis
+          || this.CtrlType == VJ_ControllerType.VJ_RotAxis
+          || this.CtrlType == VJ_ControllerType.VJ_Slider
+          || this.CtrlType == VJ_ControllerType.VJ_Hat
+          || this.CtrlType == VJ_ControllerType.VJ_Button;
+    }
 
     /// <summary>
     /// true if it is a Key Command
@@ -194,6 +206,15 @@ namespace vjMapper.VjOutput
       }
     }
 
+    /// <summary>
+    /// Redo the JString creation (mostly for debug..)
+    /// </summary>
+    public string RecreateJString()
+    {
+      m_jString = "";
+      return JString;
+    }
+
     // SCJoyServer Client support
 
     /// <summary>
@@ -204,9 +225,11 @@ namespace vjMapper.VjOutput
     /// <returns>An Axis Command</returns>
     public static VJCommand VJAxisCmd( VJ_ControllerDirection axis, int value )
     {
-      var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.VJ_Axis,
-                                   CtrlDirection = axis,
-                                   CtrlValue_Delay = value };
+      var cmd = new VJCommand( ) {
+        CtrlType = VJ_ControllerType.VJ_Axis,
+        CtrlDirection = axis,
+        CtrlValue_Delay = value
+      };
       return cmd;
     }
 
@@ -219,9 +242,11 @@ namespace vjMapper.VjOutput
     /// <returns>A RotAxis Command</returns>
     public static VJCommand VJRotAxisCmd( VJ_ControllerDirection axis, int value )
     {
-      var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.VJ_RotAxis,
-                                   CtrlDirection = axis,
-                                   CtrlValue_Delay = value };
+      var cmd = new VJCommand( ) {
+        CtrlType = VJ_ControllerType.VJ_RotAxis,
+        CtrlDirection = axis,
+        CtrlValue_Delay = value
+      };
       return cmd;
     }
 
@@ -234,9 +259,11 @@ namespace vjMapper.VjOutput
     /// <returns>A Slider Command</returns>
     public static VJCommand VJSliderCmd( int index, int value )
     {
-      var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.VJ_Slider,
-                                   CtrlIndex_keycode =index,
-                                   CtrlValue_Delay = value };
+      var cmd = new VJCommand( ) {
+        CtrlType = VJ_ControllerType.VJ_Slider,
+        CtrlIndex_keycode = index,
+        CtrlValue_Delay = value
+      };
       return cmd;
     }
 
@@ -265,11 +292,12 @@ namespace vjMapper.VjOutput
     /// <param name="pressMode">The press mode (optional)</param>
     /// <param name="delay">The press delay (optional)</param>
     /// <returns>A Button Command</returns>
-    public static VJCommand VJButtonCmd( int buttonIndex, VJ_ControllerDirection pressMode = VJ_ControllerDirection.VJ_Tap, int delay = DEFAULT_DELAY )
+    public static VJCommand VJButtonCmd( int buttonIndex, int jNo=1, VJ_ControllerDirection pressMode = VJ_ControllerDirection.VJ_Tap, int delay = DEFAULT_DELAY )
     {
       var cmd = new VJCommand( ) {
         CtrlType = VJ_ControllerType.VJ_Button,
         CtrlIndex_keycode = buttonIndex,
+        CtrlJNo= jNo,
         CtrlDirection = pressMode,
         CtrlValue_Delay = delay
       };
@@ -331,7 +359,7 @@ namespace vjMapper.VjOutput
     /// Create an Extension Command
     /// </summary>
     /// <returns>An Extension Command</returns>
-    public static VJCommand VJExtCmd( )
+    public static VJCommand VJExtCmd()
     {
       var cmd = new VJCommand( ) { CtrlType = VJ_ControllerType.OX_Ext };
       return cmd;
